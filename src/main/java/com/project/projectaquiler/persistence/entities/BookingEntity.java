@@ -20,22 +20,22 @@ public class BookingEntity {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @ManyToOne(targetEntity = UserEntity.class)
+    @ManyToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonManagedReference("booking-user")
     @NotNull @NotBlank
     private UserEntity user;
 
-    @ManyToOne(targetEntity = VehicleEntity.class)
+    @ManyToOne(targetEntity = VehicleEntity.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_id", nullable = false)
     @JsonManagedReference("booking-vehicle")
     @NotNull @NotBlank
     private VehicleEntity vehicle;
 
-    @NotNull @NotBlank
+    @NotNull
     private LocalDate startDate;
 
-    @NotNull @NotBlank
+    @NotNull
     private LocalDate endDate;
 
     @NotNull @NotBlank

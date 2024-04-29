@@ -1,5 +1,6 @@
 package com.project.projectaquiler.config.app;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@Slf4j
 public class AppConfig {
 
     private Map<String, String> loadEnviromentVariables(){
@@ -29,6 +31,7 @@ public class AppConfig {
         dataSource.setUrl("jdbc:mysql://"+enVars.get("DB_HOST")+":"+enVars.get("DB_PORT")+"/"+enVars.get("DB_NAME"));
         dataSource.setUsername(enVars.get("DB_USER"));
         dataSource.setPassword(enVars.get("DB_PASSWORD"));
+        log.info("Database connection established");
         return dataSource;
     }
 }
