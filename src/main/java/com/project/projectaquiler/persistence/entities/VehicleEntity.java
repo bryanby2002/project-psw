@@ -27,7 +27,7 @@ public class VehicleEntity {
     private Integer year;
     private Double price;
     private String description;
-    private String image;
+    private String imageUrl;
     private String tuition;
     private Integer status;
 
