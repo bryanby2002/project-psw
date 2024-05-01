@@ -1,17 +1,15 @@
 package com.project.projectaquiler.services;
 
 import com.project.projectaquiler.dto.UserRequest;
-import com.project.projectaquiler.persistence.entities.PermissionEntity;
-import com.project.projectaquiler.persistence.entities.RoleEntity;
-import com.project.projectaquiler.persistence.entities.RoleEnum;
-import com.project.projectaquiler.persistence.entities.UserEntity;
+import com.project.projectaquiler.persistence.entities.*;
 import com.project.projectaquiler.persistence.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -33,10 +31,14 @@ public class UserService {
                     .permissions(Set.of(READ_PERMISSION, BOOKING_PERMISSION))
                     .build();
 
+            UserRequest.validate(userRequest);
+
             UserEntity userEntity = UserEntity.builder()
+                    .userName(userRequest.userName())
                     .name(userRequest.name())
-                    .password(new BCryptPasswordEncoder().encode(userRequest.password()))
+                    .password(userRequest.password())
                     .email(userRequest.email())
+                    .dni(userRequest.dni())
                     .name(userRequest.name())
                     .lastName(userRequest.lastName())
                     .phone(userRequest.phone())
@@ -49,11 +51,21 @@ public class UserService {
                     .accountNoLocked(true)
                     .credentialNoExpired(true)
                     .build();
-            userRepository.save(userEntity);
-            return userEntity;
+            return userRepository.save(userEntity);
         } catch (DataIntegrityViolationException ex){
             log.error("Error saving user or email duplicated" , ex);
             return null;
         }
+    }
+
+    public Optional<UserEntity> findUserByUsername(String usermane) {
+        return userRepository.findByUserName(usermane);
+    }
+
+    public List<BookingEntity> findBookingsForUser(String username){
+
+        return findUserByUsername(username).stream()
+                .flatMap(user -> user.getBookingEntityList().stream())
+                .toList();
     }
 }

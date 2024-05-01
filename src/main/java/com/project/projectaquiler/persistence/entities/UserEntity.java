@@ -2,8 +2,6 @@ package com.project.projectaquiler.persistence.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,21 +23,17 @@ public class UserEntity {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(unique = true)
-    @NotBlank @NotNull
-    private String username;
-    @NotBlank @NotNull
+    private String userName;
     private String password;
     @Column(unique = true)
-    @NotBlank @NotNull
     private String email;
-    @NotBlank @NotNull
+    @Column(unique = true)
+    private Integer dni;
     private String name;
     private String lastName;
-    @NotBlank @NotNull
     private Integer phone;
     private Integer age;
     private String gender;
-    @NotBlank @NotNull
     private String address;
     private boolean isEnable;
     private boolean accountNoExpired;
