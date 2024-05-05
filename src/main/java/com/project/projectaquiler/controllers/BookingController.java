@@ -3,6 +3,7 @@ package com.project.projectaquiler.controllers;
 import com.project.projectaquiler.dto.BookingRequest;
 import com.project.projectaquiler.persistence.entities.BookingEntity;
 import com.project.projectaquiler.services.BookingService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ public class BookingController {
 
     @PostMapping()
     public ResponseEntity<BookingEntity> saveBookingEntity(
-            @RequestBody BookingRequest  bookingRequest,
-            @RequestParam String userId, @RequestParam String vehicleId) {
+            @RequestBody @Valid BookingRequest  bookingRequest,
+            @RequestParam("userid") String userId, @RequestParam("vehicleid") String vehicleId) {
 
         return new ResponseEntity<>(bookingService.saveBooking(userId, vehicleId, bookingRequest),
                 HttpStatus.CREATED);

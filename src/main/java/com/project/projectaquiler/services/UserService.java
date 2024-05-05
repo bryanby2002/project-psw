@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -58,14 +59,28 @@ public class UserService {
         }
     }
 
+    // metodo que retorna
     public Optional<UserEntity> findUserByUsername(String usermane) {
         return userRepository.findByUserName(usermane);
     }
 
-    public List<BookingEntity> findBookingsForUser(String username){
-
-        return findUserByUsername(username).stream()
-                .flatMap(user -> user.getBookingEntityList().stream())
-                .toList();
+    // Metodo para listar las reservas de un usuario
+    public List<BookingDetails> findBookingsForUser(String username){
+        Optional<UserEntity> user = findUserByUsername(username);
+        if(user.isPresent()){
+            List<BookingEntity> bookingEntities = user.get().getBookingEntityList();
+            return bookingEntities.stream()
+                    .map(bookingEntity -> new BookingDetails(
+                            bookingEntity.getUser().getId(),
+                            bookingEntity.getVehicle().getImageUrl(),
+                            bookingEntity.getVehicle().getPrice(),
+                            bookingEntity.getVehicle().getBrand(),
+                            bookingEntity.getStartDate(),
+                            bookingEntity.getEndDate()
+                    ))
+                    .toList();
+        } else {
+            return Collections.emptyList();
+        }
     }
 }
