@@ -1,6 +1,6 @@
 package com.project.projectaquiler.services;
 
-import com.project.projectaquiler.dto.BookingRequest;
+import com.project.projectaquiler.dto.request.BookingRequest;
 import com.project.projectaquiler.persistence.entities.BookingEntity;
 import com.project.projectaquiler.persistence.entities.UserEntity;
 import com.project.projectaquiler.persistence.entities.VehicleEntity;

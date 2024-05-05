@@ -1,6 +1,6 @@
 package com.project.projectaquiler.services;
 
-import com.project.projectaquiler.dto.VehicleRequest;
+import com.project.projectaquiler.dto.request.VehicleRequest;
 import com.project.projectaquiler.persistence.entities.VehicleEntity;
 import com.project.projectaquiler.persistence.repositories.VehicleRepository;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -19,6 +20,7 @@ public class VehicleService {
     private final VehicleRepository vehicleRepository;
     private final CloudinaryService cloudinaryService;
 
+    // Meotodo para registrar un vehiculo
     public VehicleEntity saveVehicleEntity(VehicleRequest request, MultipartFile imageFile) {
 
         try {
@@ -38,9 +40,16 @@ public class VehicleService {
             return vehicleRepository.save(vehicleEntity);
         }catch (DataIntegrityViolationException e){
             log.info("error while saving vehicle entity: {}", e.getMessage());
+            return VehicleEntity.builder()
+                    .description("NO se pudo registrar XDXDXDD")
+                    .build();
         } catch (IOException e) {
             log.info("error while saving file  : {}", e.getMessage());
         }
         return null;
+    }
+
+    public Iterable<VehicleEntity> findAllVehicles(){
+        return vehicleRepository.findAll();
     }
 }

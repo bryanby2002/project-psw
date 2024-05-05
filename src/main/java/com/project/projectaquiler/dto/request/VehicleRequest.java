@@ -1,4 +1,4 @@
-package com.project.projectaquiler.dto;
+package com.project.projectaquiler.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

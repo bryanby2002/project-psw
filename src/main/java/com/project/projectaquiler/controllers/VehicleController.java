@@ -2,7 +2,7 @@ package com.project.projectaquiler.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.projectaquiler.dto.VehicleRequest;
+import com.project.projectaquiler.dto.request.VehicleRequest;
 import com.project.projectaquiler.persistence.entities.VehicleEntity;
 import com.project.projectaquiler.services.VehicleService;
 import lombok.AllArgsConstructor;
@@ -31,5 +31,10 @@ public class VehicleController {
         // Guardar el vehículo con la imagen
         VehicleEntity saveVehicle = vehicleService.saveVehicleEntity(vehicleRequest, image);
         return new ResponseEntity<>(saveVehicle, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<Iterable<VehicleEntity>> getAllVehicles() {
+        return new ResponseEntity<>(vehicleService.findAllVehicles(), HttpStatus.OK);
     }
 }

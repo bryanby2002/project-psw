@@ -1,4 +1,4 @@
-package com.project.projectaquiler.persistence.entities;
+package com.project.projectaquiler.dto.details;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

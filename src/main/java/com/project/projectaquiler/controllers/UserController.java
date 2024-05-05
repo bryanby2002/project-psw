@@ -1,8 +1,8 @@
 package com.project.projectaquiler.controllers;
 
-import com.project.projectaquiler.dto.UserRequest;
-import com.project.projectaquiler.persistence.entities.BookingDetails;
-import com.project.projectaquiler.persistence.entities.BookingEntity;
+import com.project.projectaquiler.dto.details.BookingDetails;
+import com.project.projectaquiler.dto.details.UserEntityDetails;
+import com.project.projectaquiler.dto.request.UserRequest;
 import com.project.projectaquiler.persistence.entities.UserEntity;
 import com.project.projectaquiler.services.UserService;
 import jakarta.validation.Valid;
@@ -27,11 +27,17 @@ public class UserController {
     }
 
     @GetMapping("/bookings")
-    public ResponseEntity<List<BookingDetails>> findBookingForUser(@RequestParam("username") String username) {
+    public ResponseEntity<List<BookingDetails>> findBookingForUser(
+            @RequestParam("username") String username) {
         try {
             return new ResponseEntity<>(userService.findBookingsForUser(username), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<UserEntityDetails>> findAllUsers() {
+        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 }

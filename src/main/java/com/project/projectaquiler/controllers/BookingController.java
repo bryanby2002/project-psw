@@ -1,6 +1,6 @@
 package com.project.projectaquiler.controllers;
 
-import com.project.projectaquiler.dto.BookingRequest;
+import com.project.projectaquiler.dto.request.BookingRequest;
 import com.project.projectaquiler.persistence.entities.BookingEntity;
 import com.project.projectaquiler.services.BookingService;
 import jakarta.validation.Valid;

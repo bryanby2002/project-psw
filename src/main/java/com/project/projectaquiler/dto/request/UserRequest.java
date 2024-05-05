@@ -1,8 +1,12 @@
-package com.project.projectaquiler.dto;
+package com.project.projectaquiler.dto.request;
 
 import jakarta.validation.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Valid
@@ -28,4 +32,6 @@ public record UserRequest
                         throw new ConstraintViolationException(violations);
                 }
         }
+
+
 }
