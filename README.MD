@@ -26,9 +26,3 @@ Este proyecto es una aplicación REST desarrollada con Java Spring Boot que impl
 2. Configurar la conexión a la base de datos en el archivo `application.properties`.
 3. Ejecutar el comando `mvn clean install` para compilar el proyecto.
 4. Ejecutar la aplicación con el comando `mvn spring-boot:run`.
-
-## Documentación de la API
-Todos los vehiculos: `GET /vechicle` <br/>
-Reservas de un usuario por nombre: `GET /user/bookings?username=nombreEjemplo`
-
-Proyecto front: https://github.com/boya155/project-alquiler
