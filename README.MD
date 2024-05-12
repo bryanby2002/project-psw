@@ -1,5 +1,5 @@
 ## SISTEMA DE GESTION DE ALQUILER DE VEHICULOS
-![Descripción de la imagen](https://media.dev.to/cdn-cgi/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdmmxiwgyuzodl7yqyuca.jpeg)
+![Descripción de la imagen](https://old.lucentinnovation.com/cdn/shop/articles/292208577_790554755728901_9100568040808362362_n.jpg?v=1657705755)
 
 Este proyecto es una aplicación REST desarrollada con Java Spring Boot que implementa un sistema de gestión para el alquiler de vehículos. Permite a los usuarios realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre vehículos, alquileres y clientes.
 
