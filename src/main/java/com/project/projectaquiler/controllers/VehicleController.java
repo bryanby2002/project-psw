@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/vehicle")
@@ -37,4 +39,17 @@ public class VehicleController {
     public ResponseEntity<Iterable<VehicleEntity>> getAllVehicles() {
         return new ResponseEntity<>(vehicleService.findAllVehicles(), HttpStatus.OK);
     }
+
+    @GetMapping("/search/{palabra}")
+    public ResponseEntity<?> getVehiclesByPalabra(@PathVariable String palabra) {
+        return new ResponseEntity<>(vehicleService.searchVehicleByPalabra(palabra), HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<?> filterVehicles(@RequestParam("minPrice") Double minPrice,
+                                              @RequestParam("maxPrice") Double maxPrice) {
+        return new ResponseEntity<>(vehicleService.filterVehiclesForPrice(minPrice, maxPrice),
+                HttpStatus.OK);
+    }
+
 }

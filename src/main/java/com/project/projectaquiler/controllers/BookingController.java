@@ -24,4 +24,6 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.saveBooking(userId, vehicleId, bookingRequest),
                 HttpStatus.CREATED);
     }
+
+
 }
