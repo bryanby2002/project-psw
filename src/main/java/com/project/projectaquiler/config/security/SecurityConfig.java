@@ -32,9 +32,9 @@ public class SecurityConfig {
                     // endpoinst publicos
                     // vehiculos
                     httpRequest.requestMatchers(HttpMethod.GET, "/vehicle/list").permitAll();
-                    httpRequest.requestMatchers(HttpMethod.GET, "vehicle/search/{palabra}")
-                            .permitAll();
+                    httpRequest.requestMatchers(HttpMethod.GET, "vehicle/search/{palabra}").permitAll();
                     httpRequest.requestMatchers(HttpMethod.GET, "vehicle/filter").permitAll();
+                    httpRequest.requestMatchers(HttpMethod.GET, "/user/create").permitAll();
 
                     //endpoinst configurados
                     // vehiculos
@@ -42,10 +42,8 @@ public class SecurityConfig {
                     httpRequest.requestMatchers(HttpMethod.PATCH, "vehicle/update").hasRole("ADMIN");
 
                     // user
-                    httpRequest.requestMatchers(HttpMethod.GET, "/user/create")
-                            .hasAnyRole("USER", "ADMIN");
                     httpRequest.requestMatchers(HttpMethod.POST, "/user/list").hasRole("ADMIN");
-                    httpRequest.requestMatchers(HttpMethod.PATCH, "/user/update")
+                    httpRequest.requestMatchers(HttpMethod.PATCH, "/user/bookings")
                             .hasAnyRole("USER", "ADMIN");
 
                     // booking
