@@ -10,9 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.w3c.dom.stylesheets.LinkStyle;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/vehicle")
@@ -21,7 +18,7 @@ public class VehicleController {
 
     private final VehicleService vehicleService;
 
-    @PostMapping(consumes = {"multipart/form-data"})
+    @PostMapping(value = "/create", consumes = {"multipart/form-data"})
     public ResponseEntity<VehicleEntity> registerVehicle(
             @RequestParam("vehicleRequest") String vehicleRequestJson,
             @RequestParam("image") MultipartFile image) throws JsonProcessingException {
@@ -35,7 +32,7 @@ public class VehicleController {
         return new ResponseEntity<>(saveVehicle, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping(value = "/list")
     public ResponseEntity<Iterable<VehicleEntity>> getAllVehicles() {
         return new ResponseEntity<>(vehicleService.findAllVehicles(), HttpStatus.OK);
     }

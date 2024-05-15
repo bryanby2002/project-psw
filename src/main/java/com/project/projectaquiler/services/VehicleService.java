@@ -21,7 +21,6 @@ public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
     private final CloudinaryService cloudinaryService;
-    private final UserRepository userRepository;
 
     // Meotodo para registrar un vehiculo
     public VehicleEntity saveVehicleEntity(VehicleRequest request, MultipartFile imageFile) {
@@ -52,10 +51,12 @@ public class VehicleService {
         return null;
     }
 
+    // listar todos los vehiculos
     public Iterable<VehicleEntity> findAllVehicles(){
         return vehicleRepository.findAll();
     }
 
+    //buscar un vehiculo por palbara
     public List<VehicleEntity> searchVehicleByPalabra(String palabra){
         return StreamSupport.stream(vehicleRepository.findAll().spliterator(), false)
                 .filter(vehicle -> vehicle.getBrand().equals(palabra) ||
@@ -64,6 +65,7 @@ public class VehicleService {
                 .toList();
     }
 
+    // filtrar vehiculos por precio
     public List<VehicleEntity> filterVehiclesForPrice(Double minPrice , Double maxPrice){
         return StreamSupport.stream(vehicleRepository.findAll().spliterator(), false)
                 .filter(vehicle -> vehicle.getPrice()<=minPrice && vehicle.getPrice()>=maxPrice)

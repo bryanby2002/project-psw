@@ -22,9 +22,14 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(httpRequest -> {
                     // endpoinst publicos
-                    httpRequest.requestMatchers(HttpMethod.GET, "/vehicle").permitAll();
+                    // vehiculos
+                    httpRequest.requestMatchers(HttpMethod.GET, "/vehicle/list").permitAll();
                     httpRequest.requestMatchers(HttpMethod.GET, "vehicle/search/{palabra}").permitAll();
                     httpRequest.requestMatchers(HttpMethod.GET, "vehicle/filter").permitAll();
+
+                    //endpoinst privados
+                    // vehiculos
+                    httpRequest.requestMatchers(HttpMethod.POST, "/vehicle/create").hasRole("ADMIN");
                 })
                 .build();
     }

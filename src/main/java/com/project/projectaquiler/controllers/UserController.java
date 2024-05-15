@@ -39,4 +39,5 @@ public class UserController {
     public ResponseEntity<List<UserEntityDetails>> findAllUsers() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
+
 }
