@@ -2,16 +2,14 @@ package com.project.projectaquiler.services;
 
 import com.project.projectaquiler.dto.request.VehicleRequest;
 import com.project.projectaquiler.persistence.entities.VehicleEntity;
-import com.project.projectaquiler.persistence.repositories.UserRepository;
 import com.project.projectaquiler.persistence.repositories.VehicleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -22,7 +20,7 @@ public class VehicleService {
     private final VehicleRepository vehicleRepository;
     private final CloudinaryService cloudinaryService;
 
-    // Meotodo para registrar un vehiculo
+    // Metodo para registrar un vehiculo
     public VehicleEntity saveVehicleEntity(VehicleRequest request, MultipartFile imageFile) {
 
         try {
@@ -40,15 +38,12 @@ public class VehicleService {
                     .build();
             log.info("Save vehicle entity: {}", vehicleEntity);
             return vehicleRepository.save(vehicleEntity);
-        }catch (DataIntegrityViolationException e){
+        }catch (Exception e){
             log.info("error while saving vehicle entity: {}", e.getMessage());
             return VehicleEntity.builder()
-                    .description("NO se pudo registrar XDXDXDD")
+                    .description("Error savin vehicle entity "+e.getMessage())
                     .build();
-        } catch (IOException e) {
-            log.info("error while saving file  : {}", e.getMessage());
         }
-        return null;
     }
 
     // listar todos los vehiculos
@@ -66,9 +61,28 @@ public class VehicleService {
     }
 
     // filtrar vehiculos por precio
-    public List<VehicleEntity> filterVehiclesForPrice(Double minPrice , Double maxPrice){
+    public List<VehicleEntity> filterVehiclesForPrice(Double maxPrice){
         return StreamSupport.stream(vehicleRepository.findAll().spliterator(), false)
-                .filter(vehicle -> vehicle.getPrice()<=minPrice && vehicle.getPrice()>=maxPrice)
+                .filter(vehicle -> vehicle.getPrice()<=maxPrice)
                 .toList();
+    }
+
+    // update vehicle by ID
+    public void updateVehicleById(String vehicleId, VehicleRequest vehicleRequest){
+        Optional<VehicleEntity> vehicleEntity = vehicleRepository.findById(vehicleId);
+        if(vehicleEntity.isPresent()){
+            VehicleEntity existingVehicle = vehicleEntity.get();
+            existingVehicle.setBrand(vehicleRequest.brand());
+            existingVehicle.setModel(vehicleRequest.model());
+            existingVehicle.setColor(vehicleRequest.color());
+            existingVehicle.setYear(vehicleRequest.year());
+            existingVehicle.setPrice(vehicleRequest.price());
+            existingVehicle.setDescription(vehicleRequest.description());
+            existingVehicle.setImageUrl(vehicleRequest.image());
+            existingVehicle.setStatus(vehicleRequest.status());
+            vehicleRepository.save(existingVehicle);
+        } else {
+            log.info("Vehicle with id {} not found", vehicleId);
+        }
     }
 }

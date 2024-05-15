@@ -20,7 +20,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping()
+    @PostMapping(value = "/create")
     public ResponseEntity<UserEntity> createUser(@RequestBody @Valid UserRequest user) {
         return new ResponseEntity<>(userService.saveUserEntity(user), HttpStatus.CREATED);
     }
@@ -35,7 +35,7 @@ public class UserController {
         }
     }
 
-    @GetMapping()
+    @GetMapping("/list")
     public ResponseEntity<List<UserEntityDetails>> findAllUsers() {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }

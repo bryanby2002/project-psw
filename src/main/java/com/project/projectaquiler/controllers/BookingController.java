@@ -16,7 +16,7 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    @PostMapping()
+    @PostMapping(value = "/create")
     public ResponseEntity<BookingEntity> saveBookingEntity(
             @RequestBody @Valid BookingRequest  bookingRequest,
             @RequestParam("userid") String userId, @RequestParam("vehicleid") String vehicleId) {

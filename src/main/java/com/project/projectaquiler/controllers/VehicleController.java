@@ -43,10 +43,16 @@ public class VehicleController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<?> filterVehicles(@RequestParam("minPrice") Double minPrice,
-                                              @RequestParam("maxPrice") Double maxPrice) {
-        return new ResponseEntity<>(vehicleService.filterVehiclesForPrice(minPrice, maxPrice),
+    public ResponseEntity<?> filterVehiclesByMaxPrice(@RequestParam("maxPrice") Double maxPrice) {
+        return new ResponseEntity<>(vehicleService.filterVehiclesForPrice(maxPrice),
                 HttpStatus.OK);
+    }
+
+    @PatchMapping("/update/{vehicleId}")
+    public ResponseEntity<?> updateVehicle(@PathVariable String vehicleId,
+                                           @RequestBody VehicleRequest vehicleRequest) {
+        vehicleService.updateVehicleById(vehicleId, vehicleRequest);
+        return new ResponseEntity<>("Successfull update vehicle entity", HttpStatus.CREATED);
     }
 
 }

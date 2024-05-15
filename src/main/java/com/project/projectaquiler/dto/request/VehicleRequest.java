@@ -13,7 +13,7 @@ public record VehicleRequest
                 @NotNull @NotBlank String description,
                 @NotNull @NotBlank String image,
                 @NotNull @NotBlank String tuition,
-                @NotNull @NotBlank String status
+                @NotNull @NotBlank Integer status
         )
 {
 }
