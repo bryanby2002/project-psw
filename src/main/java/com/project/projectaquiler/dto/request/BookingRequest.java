@@ -5,11 +5,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record BookingRequest
-        (
+public record BookingRequest(
                 LocalDate startDate,
                 LocalDate endDate,
-                @NotNull @NotBlank String purpose
-        )
-{
+                @NotNull @NotBlank String purpose) {
 }
