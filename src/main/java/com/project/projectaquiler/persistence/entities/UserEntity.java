@@ -47,7 +47,7 @@ public class UserEntity {
             mappedBy = "user"
     )
     @JsonBackReference("booking-user")
-    private List<BookingEntity> bookingEntityList = new ArrayList<>();
+    private final List<BookingEntity> bookingEntityList = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -55,5 +55,6 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @Builder.Default
     private Set<RoleEntity> roles = new HashSet<>();
 }

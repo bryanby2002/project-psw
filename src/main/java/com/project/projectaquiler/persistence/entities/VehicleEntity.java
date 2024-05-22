@@ -38,6 +38,7 @@ public class VehicleEntity {
             targetEntity = BookingEntity.class
     )
     @JsonBackReference("booking-vehicle")
+    @Builder.Default
     private List<BookingEntity> bookingEntityList = new ArrayList<>();
 
 }
