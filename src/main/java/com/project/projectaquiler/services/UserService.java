@@ -8,6 +8,7 @@ import com.project.projectaquiler.persistence.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -43,7 +44,7 @@ public class UserService {
             UserEntity userEntity = UserEntity.builder()
                     .userName(userRequest.userName())
                     .name(userRequest.name())
-                    .password(userRequest.password())
+                    .password(new BCryptPasswordEncoder().encode(userRequest.password()))
                     .email(userRequest.email())
                     .dni(userRequest.dni())
                     .name(userRequest.name())

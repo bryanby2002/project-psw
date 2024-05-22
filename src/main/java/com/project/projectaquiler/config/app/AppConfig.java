@@ -24,7 +24,7 @@ public class AppConfig {
     }
 
     @Bean
-    public DataSource getDataSource() {
+    DataSource getDataSource() {
         Map<String, String> enVars = loadEnviromentVariables();
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");

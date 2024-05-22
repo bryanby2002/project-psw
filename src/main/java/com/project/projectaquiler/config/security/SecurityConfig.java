@@ -1,5 +1,6 @@
 package com.project.projectaquiler.config.security;
 
+import com.project.projectaquiler.services.auth.UserDetailsImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -34,7 +35,7 @@ public class SecurityConfig {
                     httpRequest.requestMatchers(HttpMethod.GET, "/vehicle/list").permitAll();
                     httpRequest.requestMatchers(HttpMethod.GET, "vehicle/search/{palabra}").permitAll();
                     httpRequest.requestMatchers(HttpMethod.GET, "vehicle/filter").permitAll();
-                    httpRequest.requestMatchers(HttpMethod.GET, "/user/create").permitAll();
+                    httpRequest.requestMatchers(HttpMethod.POST, "/user/create").permitAll();
 
                     //endpoinst configurados
                     // vehiculos
@@ -62,7 +63,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider provider(UserDetailsServiceImpl userDetailsService){
+    public AuthenticationProvider provider(UserDetailsImpl userDetailsService){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(userDetailsService);
