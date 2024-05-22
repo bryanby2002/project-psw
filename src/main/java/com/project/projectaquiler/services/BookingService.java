@@ -34,6 +34,8 @@ public class BookingService {
       .findById(vehicleId)
       .orElseThrow(() -> new RuntimeException("Vehicle not found"));
 
+  
+    //validar fechas de inicio y fin
     if (bookingRequest.endDate().isBefore(bookingRequest.startDate())) {
       throw new BookingException("End date must be after start date");
     }
