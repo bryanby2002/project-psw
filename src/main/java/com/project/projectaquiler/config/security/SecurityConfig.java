@@ -22,7 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http)
+  SecurityFilterChain securityFilterChain(HttpSecurity http)
     throws Exception {
     return http
       .csrf(AbstractHttpConfigurer::disable)

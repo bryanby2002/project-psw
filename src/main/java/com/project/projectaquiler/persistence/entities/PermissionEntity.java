@@ -14,8 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PermissionEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
+  private String name;
 }

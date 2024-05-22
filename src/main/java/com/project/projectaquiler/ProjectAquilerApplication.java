@@ -15,7 +15,7 @@ public class ProjectAquilerApplication {
     }
 
     @Bean
-    public MultipartConfigElement multipartConfigElement() {
+    MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         factory.setMaxFileSize(DataSize.parse("256KB")); // Establece el tamaño máximo del archivo
         factory.setMaxRequestSize(DataSize.parse("512KB")); // Establece el tamaño máximo de la solicitud
