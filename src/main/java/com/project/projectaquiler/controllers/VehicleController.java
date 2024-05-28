@@ -18,6 +18,7 @@ public class VehicleController {
 
   private final VehicleService vehicleService;
 
+  // create vehicle
   @PostMapping(value = "/create", consumes = { "multipart/form-data" })
   public ResponseEntity<?> registerVehicle(
     @RequestParam("vehicleRequest") String vehicleRequestJson,
@@ -42,6 +43,7 @@ public class VehicleController {
     }
   }
 
+  // get all vehicles
   @GetMapping(value = "/list")
   public ResponseEntity<Iterable<VehicleEntity>> getAllVehicles() {
     return new ResponseEntity<>(
@@ -50,6 +52,7 @@ public class VehicleController {
     );
   }
 
+  //search vehicles
   @GetMapping("/search/{palabra}")
   public ResponseEntity<?> getVehiclesByPalabra(@PathVariable String palabra) {
     return new ResponseEntity<>(
@@ -58,16 +61,31 @@ public class VehicleController {
     );
   }
 
+  // filter price vehicles by price min to max
   @GetMapping("/filter")
-  public ResponseEntity<?> filterVehiclesByMaxPrice(
-    @RequestParam("maxPrice") Double maxPrice
-  ) {
+  public ResponseEntity<?> shortVehiclesMinToMax() {
     return new ResponseEntity<>(
-      vehicleService.filterVehiclesForPrice(maxPrice),
+      vehicleService.shortVehicleMinToMax(),
       HttpStatus.OK
     );
   }
 
+  // filter price vehicles by price max to min
+  @GetMapping("/filter")
+  public ResponseEntity<?> shortVehiclesMaxToMin() {
+    return new ResponseEntity<>(
+            vehicleService.shortVehicleMaxToMin(),
+            HttpStatus.OK
+    );
+  }
+
+  // type vechicle
+  @GetMapping("/type/{type}")
+  public ResponseEntity<?> findVehicleByType(@PathVariable String type) {
+    return new ResponseEntity<>(vehicleService.filterVehiclesByType(type), HttpStatus.OK);
+  }
+
+  //update vehicle for id
   @PatchMapping("/update/{vehicleId}")
   public ResponseEntity<?> updateVehicle(
     @PathVariable String vehicleId,

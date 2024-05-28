@@ -37,18 +37,19 @@ public class VehicleService {
       .description(request.description())
       .imageUrl(imageUrl)
       .plate(request.plate())
-            .passengerCapacity(request.passengerCapacity())
+      .passengerCapacity(request.passengerCapacity())
       .vehicleStatus(request.status())
       .build();
     log.info("Save vehicle entity: {}", vehicleEntity);
     return vehicleRepository.save(vehicleEntity);
   }
 
+  // filter vehicle by type
   public List<VehicleEntity> filterVehiclesByType(String type) {
     return StreamSupport
-            .stream(vehicleRepository.findAll().spliterator(), true)
-            .filter(vechicle -> vechicle.getTypeVehicle().equals(type))
-            .toList();
+      .stream(vehicleRepository.findAll().spliterator(), true)
+      .filter(vechicle -> vechicle.getTypeVehicle().equals(type))
+      .toList();
   }
 
   // listar todos los vehiculos
@@ -65,16 +66,16 @@ public class VehicleService {
   public List<VehicleEntity> shortVehicleMinToMax() {
     return StreamSupport
       .stream(vehicleRepository.findAll().spliterator(), false)
-            .sorted(Comparator.comparingDouble(VehicleEntity::getPrice))
+      .sorted(Comparator.comparingDouble(VehicleEntity::getPrice))
       .toList();
   }
 
   // filtrar vehiculos por precio mayor a menor
   public List<VehicleEntity> shortVehicleMaxToMin() {
     return StreamSupport
-            .stream(vehicleRepository.findAll().spliterator(), false)
-            .sorted(Comparator.comparingDouble(VehicleEntity::getPrice).reversed())
-            .toList();
+      .stream(vehicleRepository.findAll().spliterator(), false)
+      .sorted(Comparator.comparingDouble(VehicleEntity::getPrice).reversed())
+      .toList();
   }
 
   // update vehicle by ID
@@ -104,4 +105,3 @@ public class VehicleService {
     }
   }
 }
-
