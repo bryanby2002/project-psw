@@ -4,6 +4,7 @@ import com.project.projectaquiler.dto.request.VehicleRequest;
 import com.project.projectaquiler.persistence.entities.VehicleEntity;
 import com.project.projectaquiler.persistence.repositories.VehicleRepository;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -35,11 +36,19 @@ public class VehicleService {
       .price(request.price())
       .description(request.description())
       .imageUrl(imageUrl)
-      .tuition(request.tuition())
-      .status(1)
+      .plate(request.plate())
+            .passengerCapacity(request.passengerCapacity())
+      .vehicleStatus(request.status())
       .build();
     log.info("Save vehicle entity: {}", vehicleEntity);
     return vehicleRepository.save(vehicleEntity);
+  }
+
+  public List<VehicleEntity> filterVehiclesByType(String type) {
+    return StreamSupport
+            .stream(vehicleRepository.findAll().spliterator(), true)
+            .filter(vechicle -> vechicle.getTypeVehicle().equals(type))
+            .toList();
   }
 
   // listar todos los vehiculos
@@ -49,22 +58,23 @@ public class VehicleService {
 
   //buscar un vehiculo por palabara
   public List<VehicleEntity> searchVehicleByPalabra(String palabra) {
+    return vehicleRepository.seachByParam(palabra);
+  }
+
+  // filtrar vehiculos por precio menor a mayor
+  public List<VehicleEntity> shortVehicleMinToMax() {
     return StreamSupport
       .stream(vehicleRepository.findAll().spliterator(), false)
-      .filter(vehicle ->
-        vehicle.getBrand().equals(palabra) ||
-        vehicle.getModel().equals(palabra) ||
-        vehicle.getColor().equals(palabra)
-      )
+            .sorted(Comparator.comparingDouble(VehicleEntity::getPrice))
       .toList();
   }
 
-  // filtrar vehiculos por precio
-  public List<VehicleEntity> filterVehiclesForPrice(Double maxPrice) {
+  // filtrar vehiculos por precio mayor a menor
+  public List<VehicleEntity> shortVehicleMaxToMin() {
     return StreamSupport
-      .stream(vehicleRepository.findAll().spliterator(), false)
-      .filter(vehicle -> vehicle.getPrice() <= maxPrice)
-      .toList();
+            .stream(vehicleRepository.findAll().spliterator(), false)
+            .sorted(Comparator.comparingDouble(VehicleEntity::getPrice).reversed())
+            .toList();
   }
 
   // update vehicle by ID
@@ -84,7 +94,9 @@ public class VehicleService {
       existingVehicle.setPrice(vehicleRequest.price());
       existingVehicle.setDescription(vehicleRequest.description());
       existingVehicle.setImageUrl(vehicleRequest.image());
-      existingVehicle.setStatus(vehicleRequest.status());
+      existingVehicle.setVehicleStatus(vehicleRequest.status());
+      existingVehicle.setPlate(vehicleRequest.plate());
+      existingVehicle.setPassengerCapacity(vehicleRequest.passengerCapacity());
       log.info("Update vehicle {}", existingVehicle);
       vehicleRepository.save(existingVehicle);
     } else {

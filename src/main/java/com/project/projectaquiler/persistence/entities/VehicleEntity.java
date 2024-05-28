@@ -25,14 +25,15 @@ public class VehicleEntity {
 
   @Column(unique = true)
   private String model;
-
+  private String typeVehicle;
   private String color;
   private Integer year;
   private Double price;
   private String description;
   private String imageUrl;
-  private String tuition;
-  private Integer status;
+  private String plate;
+  private Integer passengerCapacity;
+  private String vehicleStatus;
 
   @OneToMany(
     fetch = FetchType.LAZY,

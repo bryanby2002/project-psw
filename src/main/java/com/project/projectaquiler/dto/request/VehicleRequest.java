@@ -11,6 +11,7 @@ public record VehicleRequest(
   Double price,
   @NotNull @NotBlank String description,
   @NotNull @NotBlank String image,
-  @NotNull @NotBlank String tuition,
-  @NotNull @NotBlank Integer status
+  @NotNull @NotBlank String plate,
+  Integer passengerCapacity,
+  @NotNull @NotBlank String status
 ) {}
