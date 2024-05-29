@@ -3,22 +3,20 @@ package com.project.projectaquiler.services.auth;
 import com.project.projectaquiler.dto.request.AuhtLoginRequest;
 import com.project.projectaquiler.dto.request.AuthResponse;
 import com.project.projectaquiler.dto.request.UserRequest;
+import com.project.projectaquiler.persistence.entities.PermissionEntity;
 import com.project.projectaquiler.persistence.entities.RoleEntity;
+import com.project.projectaquiler.persistence.entities.RoleEnum;
 import com.project.projectaquiler.persistence.entities.UserEntity;
-import com.project.projectaquiler.persistence.repositories.RoleRepository;
 import com.project.projectaquiler.persistence.repositories.UserRepository;
 import com.project.projectaquiler.utils.JwtUtils;
-import jakarta.persistence.criteria.CriteriaBuilder.In;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +30,6 @@ import org.springframework.stereotype.Service;
 public class UserDetailsImpl implements UserDetailsService {
 
   private final UserRepository userRepository;
-  private final RoleRepository roleRepository;
   private PasswordEncoder passwordEncoder;
   private JwtUtils jwtUtils;
 
@@ -77,41 +74,38 @@ public class UserDetailsImpl implements UserDetailsService {
   }
 
   //create user
-  public AuthResponse createUser(UserRequest createRoleRequest) {
-    String username = createRoleRequest.userName();
-    String password = createRoleRequest.password();
-    Integer dni = createRoleRequest.dni();
-    String email = createRoleRequest.email();
-    String name = createRoleRequest.name();
-    String lastName = createRoleRequest.lastName();
-    Integer phone = createRoleRequest.phone();
-    Integer age = createRoleRequest.age();
-    String gender = createRoleRequest.gender();
-    String address = createRoleRequest.address();
-    List<String> rolesRequest = createRoleRequest.roleRequest().roleListName();
+  public AuthResponse createUser(UserRequest request) {
 
-    Set<RoleEntity> roleEntityList = roleRepository
-      .findRoleEntitiesByRoleEnumIn(rolesRequest)
-      .stream()
-      .collect(Collectors.toSet());
-
-    if (roleEntityList.isEmpty()) {
-      throw new IllegalArgumentException("The roles specified does not exist.");
-    }
-
+    // PERMISSSION DEFAULT
+    final PermissionEntity READ_PERMISSION = PermissionEntity
+      .builder()
+      .name("READ")
+      .build();
+    final PermissionEntity BOOKING_PERMISSION = PermissionEntity
+      .builder()
+      .name("BOOKING")
+      .build();
+    // ROLE DEFAULT
+    final RoleEntity USER_ROLE = RoleEntity
+      .builder()
+      .role(RoleEnum.ROLE_USER)
+      .permissions(Set.of(READ_PERMISSION, BOOKING_PERMISSION))
+      .build();
+    
+    //seteo de atributos al usuario entity
     UserEntity userEntity = UserEntity
       .builder()
-      .userName(username)
-      .password(passwordEncoder.encode(password))
-      .dni(dni)
-      .email(email)
-      .name(name)
-      .lastName(lastName)
-      .phone(phone)
-      .age(age)
-      .gender(gender)
-      .address(address)
-      .roles(roleEntityList)
+      .userName(request.userName())
+      .password(passwordEncoder.encode(request.password()))
+      .dni(request.dni())
+      .email(request.email())
+      .name(request.name())
+      .lastName(request.lastName())
+      .phone(request.phone())
+      .age(request.age())
+      .gender(request.gender())
+      .address(request.address())
+      .roles(Set.of(USER_ROLE))
       .isEnable(true)
       .accountNoLocked(true)
       .accountNoExpired(true)
@@ -146,7 +140,7 @@ public class UserDetailsImpl implements UserDetailsService {
     String accessToken = jwtUtils.createToken(authentication);
 
     AuthResponse authResponse = new AuthResponse(
-      username,
+      request.userName(),
       "User created successfully",
       accessToken,
       true

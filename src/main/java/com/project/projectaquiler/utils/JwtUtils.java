@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -19,11 +18,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtils {
 
-  @Value("${security.jwt.private.key}")
-  private String privateKey;
-
-  @Value("${security.jwt.user.generator}")
-  private String userGenarator;
+  //variables en entorno del sistema 🔒
+  private String privateKey = System.getenv("KEY_JWT");
+  private String userGenarator = System.getenv("USER_GENERATOR");
 
   //created token
   public String createToken(Authentication authentication) {

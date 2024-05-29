@@ -14,8 +14,7 @@ public record UserRequest(
   @Digits(integer = 9, fraction = 0) Integer phone,
   Integer age,
   String gender,
-  @NotNull @NotBlank String address,
-  @Valid AuhtCreateRoleRequest roleRequest
+  @NotNull @NotBlank String address
 
 ) {
 }
