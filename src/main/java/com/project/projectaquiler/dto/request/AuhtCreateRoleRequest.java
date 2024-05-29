@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-public record AuhCreateRoleRequest(
+public record AuhtCreateRoleRequest(
   @Size(max = 4, message = "El usuario no puede tener mas de 4 roles")
   List<String> roleListName
 ) {}
