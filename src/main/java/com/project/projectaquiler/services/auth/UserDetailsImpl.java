@@ -1,5 +1,6 @@
 package com.project.projectaquiler.services.auth;
 
+import com.project.projectaquiler.dto.request.AuhtLoginRequest;
 import com.project.projectaquiler.dto.request.AuthResponse;
 import com.project.projectaquiler.dto.request.UserRequest;
 import com.project.projectaquiler.persistence.entities.RoleEntity;
@@ -7,13 +8,13 @@ import com.project.projectaquiler.persistence.entities.UserEntity;
 import com.project.projectaquiler.persistence.repositories.RoleRepository;
 import com.project.projectaquiler.persistence.repositories.UserRepository;
 import com.project.projectaquiler.utils.JwtUtils;
-
 import jakarta.persistence.criteria.CriteriaBuilder.In;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -77,7 +78,6 @@ public class UserDetailsImpl implements UserDetailsService {
 
   //create user
   public AuthResponse createUser(UserRequest createRoleRequest) {
-    
     String username = createRoleRequest.userName();
     String password = createRoleRequest.password();
     Integer dni = createRoleRequest.dni();
@@ -131,7 +131,7 @@ public class UserDetailsImpl implements UserDetailsService {
       );
 
     userSaved
-    .getRoles()
+      .getRoles()
       .stream()
       .flatMap(role -> role.getPermissions().stream())
       .forEach(permission ->
@@ -154,5 +154,42 @@ public class UserDetailsImpl implements UserDetailsService {
     return authResponse;
   }
 
-  
+  // user login
+  public AuthResponse loginUser(AuhtLoginRequest authLoginRequest) {
+    String username = authLoginRequest.username();
+    String password = authLoginRequest.password();
+
+    Authentication authentication = this.authenticate(username, password);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    String accessToken = jwtUtils.createToken(authentication);
+    AuthResponse authResponse = new AuthResponse(
+      username,
+      "User loged succesfully",
+      accessToken,
+      true
+    );
+    return authResponse;
+  }
+
+  // user autheticate
+  public Authentication authenticate(String username, String password) {
+    UserDetails userDetails = this.loadUserByUsername(username);
+
+    if (userDetails == null) {
+      throw new BadCredentialsException(
+        String.format("Invalid username or password")
+      );
+    }
+
+    if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+      throw new BadCredentialsException("Incorrect Password");
+    }
+
+    return new UsernamePasswordAuthenticationToken(
+      username,
+      password,
+      userDetails.getAuthorities()
+    );
+  }
 }
