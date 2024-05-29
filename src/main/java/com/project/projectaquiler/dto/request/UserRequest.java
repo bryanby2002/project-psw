@@ -2,7 +2,6 @@ package com.project.projectaquiler.dto.request;
 
 import jakarta.validation.*;
 import jakarta.validation.constraints.*;
-import java.util.Set;
 
 @Valid
 public record UserRequest(
@@ -17,16 +16,4 @@ public record UserRequest(
   String gender,
   @NotNull @NotBlank String address
 ) {
-  public static void validate(UserRequest userRequest) {
-    Validator validator = Validation
-      .buildDefaultValidatorFactory()
-      .getValidator();
-    Set<ConstraintViolation<UserRequest>> violations = validator.validate(
-      userRequest
-    );
-
-    if (!violations.isEmpty()) {
-      throw new ConstraintViolationException(violations);
-    }
-  }
 }

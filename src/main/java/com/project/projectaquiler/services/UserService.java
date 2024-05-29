@@ -39,8 +39,6 @@ public class UserService {
       .permissions(Set.of(READ_PERMISSION, BOOKING_PERMISSION))
       .build();
 
-    UserRequest.validate(userRequest);
-
     UserEntity userEntity = UserEntity
       .builder()
       .userName(userRequest.userName())
