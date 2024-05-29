@@ -7,16 +7,21 @@ import com.project.projectaquiler.persistence.entities.UserEntity;
 import com.project.projectaquiler.persistence.repositories.UserRepository;
 import jakarta.servlet.MultipartConfigElement;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.unit.DataSize;
 
 @SpringBootApplication
 public class ProjectAquilerApplication {
+
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   public static void main(String[] args) {
     SpringApplication.run(ProjectAquilerApplication.class, args);
@@ -59,7 +64,7 @@ public class ProjectAquilerApplication {
         .builder()
         .userName(adminUserName)
         .name("bryan")
-        .password(adminPassword)
+        .password(passwordEncoder.encode(adminPassword))
         .email(adminEmail)
         .dni(89345289)
         .lastName("cardenas")
