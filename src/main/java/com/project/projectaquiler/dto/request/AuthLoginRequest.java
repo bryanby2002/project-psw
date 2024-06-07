@@ -2,7 +2,7 @@ package com.project.projectaquiler.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AuhtLoginRequest(
+public record AuthLoginRequest(
   @NotBlank String username,
   @NotBlank String password
 ) {}

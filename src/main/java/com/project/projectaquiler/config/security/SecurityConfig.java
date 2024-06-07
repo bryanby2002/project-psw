@@ -3,7 +3,6 @@ package com.project.projectaquiler.config.security;
 import com.project.projectaquiler.config.security.filter.JwtTokenValidator;
 import com.project.projectaquiler.services.auth.UserDetailsImpl;
 import com.project.projectaquiler.utils.JwtUtils;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,25 +21,23 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
+public class SecurityConfig {
 
   @Autowired
   private JwtUtils jwtUtils;
 
   @Bean
-  SecurityFilterChain securityFilterChain(HttpSecurity http)
-    throws Exception {
+  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
       .csrf(AbstractHttpConfigurer::disable)
       .httpBasic(Customizer.withDefaults())
       .sessionManagement(session -> {
         session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         session.maximumSessions(1);
-      }
-      )
+      })
       .authorizeHttpRequests(httpRequest -> {
         // endpoinst publicos
-        // vehiculos
+        httpRequest.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
         httpRequest
           .requestMatchers(HttpMethod.GET, "/vehicle/list")
           .permitAll();
@@ -77,11 +74,12 @@ public class SecurityConfig  {
         // endpoints no configuradas
         httpRequest.anyRequest().denyAll();
       })
-
-      .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
+      .addFilterBefore(
+        new JwtTokenValidator(jwtUtils),
+        BasicAuthenticationFilter.class
+      )
       .build();
   }
-
 
   @Bean
   AuthenticationProvider provider(UserDetailsImpl userDetailsService) {
@@ -95,5 +93,4 @@ public class SecurityConfig  {
   PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
-
 }

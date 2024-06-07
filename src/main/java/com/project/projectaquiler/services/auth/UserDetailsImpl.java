@@ -1,6 +1,6 @@
 package com.project.projectaquiler.services.auth;
 
-import com.project.projectaquiler.dto.request.AuhtLoginRequest;
+import com.project.projectaquiler.dto.request.AuthLoginRequest;
 import com.project.projectaquiler.dto.request.AuthResponse;
 import com.project.projectaquiler.dto.request.UserRequest;
 import com.project.projectaquiler.persistence.entities.PermissionEntity;
@@ -149,7 +149,7 @@ public class UserDetailsImpl implements UserDetailsService {
   }
 
   // user login
-  public AuthResponse loginUser(AuhtLoginRequest authLoginRequest) {
+  public AuthResponse loginUser(AuthLoginRequest authLoginRequest) {
     String username = authLoginRequest.username();
     String password = authLoginRequest.password();
 
