@@ -12,6 +12,7 @@ public record VehicleRequest(
   @NotNull @NotBlank String description,
   @NotNull @NotBlank String image,
   @NotNull @NotBlank String plate,
+  @NotNull @NotBlank String type,
   Integer passengerCapacity,
   @NotNull @NotBlank String status
 ) {}

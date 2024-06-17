@@ -9,6 +9,7 @@ import jakarta.servlet.MultipartConfigElement;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,14 @@ import org.springframework.util.unit.DataSize;
 
 @SpringBootApplication
 public class ProjectAquilerApplication {
+
+  // datos del admin
+  @Value("${admin.password}")
+  private String adminPassword;
+  @Value("${admin.username}")
+  private String adminUserName;
+  @Value("${admin.email}")
+  private String adminEmail;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -51,14 +60,13 @@ public class ProjectAquilerApplication {
 
       final RoleEntity ROLE_ADMIN = RoleEntity
         .builder()
-        .role(RoleEnum.ROLE_ADMIN)
+        .role(RoleEnum.ADMIN)
         .permissions(Set.of(writerPermission, reportPermission))
         .build();
 
       //creacion de user
-      String adminPassword = System.getenv("PASSWORD_ADMIN");
-      String adminUserName = System.getenv("USERNAME_ADMIN");
-      String adminEmail = System.getenv("EMAIL_ADMIN");
+
+
 
       UserEntity userAdmin = UserEntity
         .builder()
@@ -78,7 +86,7 @@ public class ProjectAquilerApplication {
         .accountNoLocked(true)
         .credentialNoExpired(true)
         .build();
-        userRepository.save(userAdmin);
+        //userRepository.save(userAdmin);
     };
   }
 }

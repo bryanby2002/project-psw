@@ -88,7 +88,7 @@ public class UserDetailsImpl implements UserDetailsService {
     // ROLE DEFAULT
     final RoleEntity USER_ROLE = RoleEntity
       .builder()
-      .role(RoleEnum.ROLE_USER)
+      .role(RoleEnum.USER)
       .permissions(Set.of(READ_PERMISSION, BOOKING_PERMISSION))
       .build();
     

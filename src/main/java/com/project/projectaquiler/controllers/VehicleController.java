@@ -43,7 +43,7 @@ public class VehicleController {
     }
   }
 
-  // get all vehicles
+  //get all vehicles
   @GetMapping(value = "/list")
   public ResponseEntity<Iterable<VehicleEntity>> getAllVehicles() {
     return new ResponseEntity<>(
@@ -62,19 +62,19 @@ public class VehicleController {
   }
 
   // filter price vehicles by price min to max
-  @GetMapping("/filter")
+  @GetMapping("/filter/min")
   public ResponseEntity<?> shortVehiclesMinToMax() {
     return new ResponseEntity<>(
-      vehicleService.shortVehicleMinToMax(),
+      vehicleService.shortVehiclesMinToMaxFilter(),
       HttpStatus.OK
     );
   }
 
   // filter price vehicles by price max to min
-  @GetMapping("/filter")
+  @GetMapping("/filter/max")
   public ResponseEntity<?> shortVehiclesMaxToMin() {
     return new ResponseEntity<>(
-            vehicleService.shortVehicleMaxToMin(),
+            vehicleService.shortVehiclesMaxToMinFilter(),
             HttpStatus.OK
     );
   }
@@ -96,5 +96,10 @@ public class VehicleController {
       "Successfull update vehicle entity",
       HttpStatus.CREATED
     );
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<?> getVehicleById(@PathVariable String id){
+    return  ResponseEntity.ok(vehicleService.getById(id));
   }
 }

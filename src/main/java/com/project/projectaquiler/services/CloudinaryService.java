@@ -4,7 +4,10 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import java.io.IOException;
 import java.util.Map;
+
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,21 +15,22 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class CloudinaryService {
 
-  private final Cloudinary cloudinary;
+  @Value("${cloud.name}")
+  private String cloudName;
+  @Value("${cloud.api.key}")
+  private String apiKey;
+  @Value("${cloud.api.secrect}")
+  private String apiSecret;
 
-  public CloudinaryService() {
-    final String CLOUD_NAME = System.getenv("CLOUD_NAME");
-    final String API_KEY = System.getenv("API_KEY");
-    final String API_SECRET = System.getenv("API_SECRECT");
+  private Cloudinary cloudinary;
 
-    cloudinary =
-      new Cloudinary(
-        ObjectUtils.asMap(
-          "cloud_name",CLOUD_NAME,
-          "api_key",API_KEY,
-          "api_secret",API_SECRET
-        )
-      );
+  @PostConstruct
+  public void init() {
+    cloudinary = new Cloudinary(ObjectUtils.asMap(
+            "cloud_name", cloudName,
+            "api_key", apiKey,
+            "api_secret", apiSecret
+    ));
     log.info("Cloudinary object created");
   }
 

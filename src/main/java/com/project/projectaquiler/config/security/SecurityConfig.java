@@ -3,6 +3,7 @@ package com.project.projectaquiler.config.security;
 import com.project.projectaquiler.config.security.filter.JwtTokenValidator;
 import com.project.projectaquiler.services.auth.UserDetailsImpl;
 import com.project.projectaquiler.utils.JwtUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +22,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
 
-  @Autowired
   private JwtUtils jwtUtils;
 
   @Bean
@@ -41,18 +42,24 @@ public class SecurityConfig {
         httpRequest
           .requestMatchers(HttpMethod.GET, "/vehicle/list")
           .permitAll();
+        httpRequest.requestMatchers(HttpMethod.POST, "/boletin/create").permitAll();
         httpRequest
           .requestMatchers(HttpMethod.GET, "vehicle/search/{palabra}")
           .permitAll();
         httpRequest
-          .requestMatchers(HttpMethod.GET, "vehicle/filter")
+          .requestMatchers(HttpMethod.GET, "vehicle/filter/max")
           .permitAll();
+        httpRequest
+                .requestMatchers(HttpMethod.GET, "vehicle/filter/min")
+                .permitAll();
         httpRequest
           .requestMatchers(HttpMethod.POST, "/user/create")
           .permitAll();
+        httpRequest.requestMatchers(HttpMethod.GET, "/vehicle/{id}").permitAll(); 
 
         //endpoinst configurados
         // vehiculos
+        httpRequest.requestMatchers(HttpMethod.GET, "/boletin/list").hasRole("ADMIN");
         httpRequest
           .requestMatchers(HttpMethod.POST, "/vehicle/create")
           .hasRole("ADMIN");

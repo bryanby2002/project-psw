@@ -35,7 +35,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
     String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-    if (token != null) {
+    if (token != null && token.startsWith("Bearer ")) {
 
       token = token.substring(7); //beaber sdkknjgnlksngbnckna
 
@@ -49,19 +49,14 @@ public class JwtTokenValidator extends OncePerRequestFilter {
         Collection<? extends GrantedAuthority> authorities = AuthorityUtils
         .commaSeparatedStringToAuthorityList(stringAuthorities);
 
-        SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = new UsernamePasswordAuthenticationToken(
             username, null, authorities
         );
 
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
-    
+
     filterChain.doFilter(request, response);
 
-    throw new UnsupportedOperationException(
-      "Unimplemented method 'doFilterInternal'"
-    );
   }
 }
