@@ -97,7 +97,6 @@ public class VehicleService {
             existingVehicle.setYear(vehicleRequest.year());
             existingVehicle.setPrice(vehicleRequest.price());
             existingVehicle.setDescription(vehicleRequest.description());
-            existingVehicle.setImageUrl(vehicleRequest.image());
             existingVehicle.setVehicleStatus(vehicleRequest.status());
             existingVehicle.setPlate(vehicleRequest.plate());
             existingVehicle.setPassengerCapacity(vehicleRequest.passengerCapacity());
@@ -111,5 +110,9 @@ public class VehicleService {
     // getbyId
     public Optional<VehicleEntity> getById(String id){
         return vehicleRepository.findById(id);
+    }
+
+    public void deleteById(String id) {
+        vehicleRepository.deleteById(id);
     }
 }

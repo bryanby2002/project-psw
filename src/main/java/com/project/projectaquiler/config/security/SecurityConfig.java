@@ -63,16 +63,16 @@ public class SecurityConfig {
         httpRequest
           .requestMatchers(HttpMethod.POST, "/vehicle/create")
           .hasRole("ADMIN");
-        httpRequest
-          .requestMatchers(HttpMethod.PATCH, "vehicle/update")
+        httpRequest.requestMatchers(HttpMethod.PATCH, "/vehicle/update/{vehicleId}")
           .hasRole("ADMIN");
+        httpRequest.requestMatchers(HttpMethod.DELETE, "/vehicle/delete/{id}").hasRole("ADMIN");
 
         // user
         httpRequest
-          .requestMatchers(HttpMethod.POST, "/user/list")
+          .requestMatchers(HttpMethod.GET, "/user/list")
           .hasRole("ADMIN");
         httpRequest
-          .requestMatchers(HttpMethod.PATCH, "/user/bookings")
+          .requestMatchers(HttpMethod.GET, "/user/bookings")
           .hasAnyRole("USER", "ADMIN");
 
         // booking

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/vehicle")
 @AllArgsConstructor
@@ -100,6 +102,19 @@ public class VehicleController {
 
   @GetMapping("/{id}")
   public ResponseEntity<?> getVehicleById(@PathVariable String id){
-    return  ResponseEntity.ok(vehicleService.getById(id));
+    Optional<VehicleEntity> vehicle = vehicleService.getById(id);
+    return vehicle.isPresent() ?
+            new ResponseEntity<>(vehicle.get(), HttpStatus.OK) :
+            new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  }
+
+  @DeleteMapping(path = "delete/{id}")
+  public ResponseEntity<?> deleteVehicleById(@PathVariable("id") String id){
+    Optional<VehicleEntity> vehicle = vehicleService.getById(id);
+    if(vehicle.isPresent()){
+      vehicleService.deleteById(id);
+      return new ResponseEntity<>("Successfull delete vehicle entity", HttpStatus.OK);
+    }
+    return new ResponseEntity<>("Vehicle not found", HttpStatus.NOT_FOUND);
   }
 }

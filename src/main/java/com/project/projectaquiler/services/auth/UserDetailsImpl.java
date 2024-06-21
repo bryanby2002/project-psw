@@ -157,13 +157,12 @@ public class UserDetailsImpl implements UserDetailsService {
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     String accessToken = jwtUtils.createToken(authentication);
-    AuthResponse authResponse = new AuthResponse(
+      return new AuthResponse(
       username,
       "User loged succesfully",
       accessToken,
       true
     );
-    return authResponse;
   }
 
   // user autheticate
@@ -172,7 +171,7 @@ public class UserDetailsImpl implements UserDetailsService {
 
     if (userDetails == null) {
       throw new BadCredentialsException(
-        String.format("Invalid username or password")
+              "Invalid username or password"
       );
     }
 

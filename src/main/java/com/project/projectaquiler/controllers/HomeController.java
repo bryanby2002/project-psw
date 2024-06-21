@@ -35,8 +35,8 @@ public class HomeController {
   public ResponseEntity<AuthResponse> login(
     @RequestBody @Valid AuthLoginRequest request) {
     return new ResponseEntity<>(
-      userDetailsImpl.loginUser(request),
-      HttpStatus.OK
+            userDetailsImpl.loginUser(request),
+            HttpStatus.OK
     );
   }
 }
