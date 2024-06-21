@@ -1,10 +1,7 @@
 package com.project.projectaquiler.persistence.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,15 +41,6 @@ public class UserEntity {
   private boolean accountNoExpired;
   private boolean accountNoLocked;
   private boolean credentialNoExpired;
-
-  @OneToMany(
-    targetEntity = BookingEntity.class,
-    fetch = FetchType.LAZY,
-    cascade = CascadeType.ALL,
-    mappedBy = "user"
-  )
-  @JsonBackReference("booking-user")
-  private final List<BookingEntity> bookingEntityList = new ArrayList<>();
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(

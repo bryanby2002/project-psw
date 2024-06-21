@@ -27,9 +27,6 @@ public class BookingService {
     String vehicleId,
     BookingRequest bookingRequest
   ) {
-    UserEntity user = userRepository
-      .findById(userId)
-      .orElseThrow(() -> new RuntimeException("User not found"));
     VehicleEntity vehicle = vehicleRepository
       .findById(vehicleId)
       .orElseThrow(() -> new RuntimeException("Vehicle not found"));
@@ -42,7 +39,6 @@ public class BookingService {
 
     BookingEntity bookingEntity = BookingEntity
       .builder()
-      .user(user)
       .vehicle(vehicle)
       .startDate(bookingRequest.startDate())
       .endDate(bookingRequest.endDate())

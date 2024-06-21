@@ -139,13 +139,12 @@ public class UserDetailsImpl implements UserDetailsService {
 
     String accessToken = jwtUtils.createToken(authentication);
 
-    AuthResponse authResponse = new AuthResponse(
+      return new AuthResponse(
       request.userName(),
       "User created successfully",
       accessToken,
       true
     );
-    return authResponse;
   }
 
   // user login

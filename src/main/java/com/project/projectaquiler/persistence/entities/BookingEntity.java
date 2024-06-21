@@ -20,11 +20,6 @@ public class BookingEntity {
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
-  @ManyToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id", nullable = false)
-  @JsonManagedReference("booking-user")
-  private UserEntity user;
-
   @ManyToOne(targetEntity = VehicleEntity.class, fetch = FetchType.EAGER)
   @JoinColumn(name = "vehicle_id", nullable = false)
   @JsonManagedReference("booking-vehicle")

@@ -3,6 +3,8 @@ package com.project.projectaquiler.controllers;
 import com.project.projectaquiler.dto.request.AuthLoginRequest;
 import com.project.projectaquiler.dto.request.AuthResponse;
 import com.project.projectaquiler.dto.request.UserRequest;
+import com.project.projectaquiler.persistence.entities.Boletin;
+import com.project.projectaquiler.services.BoletinService;
 import com.project.projectaquiler.services.auth.UserDetailsImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
   private final UserDetailsImpl userDetailsImpl;
+  private final BoletinService boletinService;
 
   // crear usuario
   @PostMapping(value = "/sing-up")
@@ -38,5 +41,11 @@ public class HomeController {
             userDetailsImpl.loginUser(request),
             HttpStatus.OK
     );
+  }
+
+  @PostMapping(path = "/boletin")
+  public ResponseEntity<Boletin> boletinSave(@RequestBody Boletin boletin){
+    Boletin boletinSave = boletinService.save(boletin);
+    return new ResponseEntity<>(boletinSave, HttpStatus.CREATED);
   }
 }
