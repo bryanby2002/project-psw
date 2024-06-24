@@ -17,19 +17,6 @@ public class UserController {
 
   private final UserService userService;
 
-  @GetMapping("/bookings")
-  public ResponseEntity<List<BookingDetails>> findBookingForUser(
-    @RequestParam("username") String username
-  ) {
-    try {
-      return new ResponseEntity<>(
-        userService.findBookingsForUser(username),
-        HttpStatus.OK
-      );
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
 
   @GetMapping("/list")
   public ResponseEntity<List<UserEntityDetails>> findAllUsers() {

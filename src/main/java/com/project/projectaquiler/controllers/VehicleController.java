@@ -108,7 +108,7 @@ public class VehicleController {
             new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
-  @DeleteMapping(path = "delete/{id}")
+  @DeleteMapping(path = "/delete/{id}")
   public ResponseEntity<?> deleteVehicleById(@PathVariable("id") String id){
     Optional<VehicleEntity> vehicle = vehicleService.getById(id);
     if(vehicle.isPresent()){

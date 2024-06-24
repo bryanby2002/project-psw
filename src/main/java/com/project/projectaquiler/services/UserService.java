@@ -24,29 +24,6 @@ public class UserService {
     return userRepository.findByUserName(usermane);
   }
 
-  // Metodo para listar las reservas de un usuario
-  public List<BookingDetails> findBookingsForUser(String username) {
-    Optional<UserEntity> user = findUserByUsername(username);
-    if (user.isPresent()) {
-      List<BookingEntity> bookingEntities = user.get().getBookingEntityList();
-      return bookingEntities
-        .stream()
-        .map(bookingEntity ->
-          new BookingDetails(
-            bookingEntity.getUser().getId(),
-            bookingEntity.getVehicle().getImageUrl(),
-            bookingEntity.getVehicle().getPrice(),
-            bookingEntity.getVehicle().getBrand(),
-            bookingEntity.getStartDate(),
-            bookingEntity.getEndDate()
-          )
-        )
-        .toList();
-    } else {
-      return Collections.emptyList();
-    }
-  }
-
   // Este metodo lista todos los usuarios en una clase details
   public List<UserEntityDetails> findAllUsers() {
     return StreamSupport

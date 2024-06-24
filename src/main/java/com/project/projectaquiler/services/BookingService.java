@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-@Slf4j
 public class BookingService {
 
   private final BookingRespository bookingRespository;
@@ -23,7 +22,6 @@ public class BookingService {
 
   // guardar reserva
   public BookingEntity saveBooking(
-    String userId,
     String vehicleId,
     BookingRequest bookingRequest
   ) {
@@ -31,7 +29,6 @@ public class BookingService {
       .findById(vehicleId)
       .orElseThrow(() -> new RuntimeException("Vehicle not found"));
 
-  
     //validar fechas de inicio y fin
     if (bookingRequest.endDate().isBefore(bookingRequest.startDate())) {
       throw new BookingException("End date must be after start date");
@@ -45,7 +42,6 @@ public class BookingService {
       .purpose(bookingRequest.purpose())
       .totalPrice(vehicle.getPrice())
       .build();
-    log.info("BookingEntity: {}", bookingEntity);
     return bookingRespository.save(bookingEntity);
   }
 }

@@ -43,9 +43,4 @@ public class HomeController {
     );
   }
 
-  @PostMapping(path = "/boletin")
-  public ResponseEntity<Boletin> boletinSave(@RequestBody Boletin boletin){
-    Boletin boletinSave = boletinService.save(boletin);
-    return new ResponseEntity<>(boletinSave, HttpStatus.CREATED);
-  }
 }

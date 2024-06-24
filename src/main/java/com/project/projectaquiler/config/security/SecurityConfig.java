@@ -58,7 +58,6 @@ public class SecurityConfig {
         httpRequest.requestMatchers(HttpMethod.GET, "/vehicle/{id}").permitAll(); 
 
         //endpoinst configurados
-        // vehiculos
         httpRequest.requestMatchers(HttpMethod.GET, "/boletin/list").hasRole("ADMIN");
         httpRequest
           .requestMatchers(HttpMethod.POST, "/vehicle/create")
@@ -66,17 +65,11 @@ public class SecurityConfig {
         httpRequest.requestMatchers(HttpMethod.PATCH, "/vehicle/update/{vehicleId}")
           .hasRole("ADMIN");
         httpRequest.requestMatchers(HttpMethod.DELETE, "/vehicle/delete/{id}").hasRole("ADMIN");
-
-        // user
         httpRequest
           .requestMatchers(HttpMethod.GET, "/user/list")
           .hasRole("ADMIN");
-        httpRequest
-          .requestMatchers(HttpMethod.GET, "/user/bookings")
-          .hasAnyRole("USER", "ADMIN");
-
-        // booking
-        httpRequest.requestMatchers(HttpMethod.POST, "/booking/create");
+        httpRequest.requestMatchers(HttpMethod.POST, "/booking/create").hasRole("ADMIN");
+        httpRequest.requestMatchers(HttpMethod.GET, "/booking/list").hasRole("ADMIN");
 
         // endpoints no configuradas
         httpRequest.anyRequest().denyAll();
