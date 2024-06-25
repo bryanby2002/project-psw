@@ -23,7 +23,7 @@ public class AppConfig {
   DataSource getDataSource() {
     DriverManagerDataSource dataSource = new DriverManagerDataSource();
     dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-    dataSource.setUrl(urlDB);
+    dataSource.setUrl(this.urlDB);
     dataSource.setUsername("root");
     dataSource.setPassword(this.passwordDB);
     log.info("Database connection established");
