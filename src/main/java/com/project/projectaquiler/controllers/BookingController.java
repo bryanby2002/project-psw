@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/booking")
@@ -44,5 +45,13 @@ public class BookingController {
     public ResponseEntity<?> getAllBookings() {
         var listBookings = bookingRespository.findAll();
         return new ResponseEntity<>(listBookings, HttpStatus.OK);
+    }
+
+    @GetMapping("/{idBooking}")
+    public ResponseEntity<?> getBookingById(@PathVariable("idBooking") String idBooking) {
+        Optional<BookingEntity> bookingEntity = bookingRespository.findById(idBooking);
+        return bookingEntity.isPresent() ?
+                new ResponseEntity<>(bookingEntity, HttpStatus.OK) :
+                new ResponseEntity<>("Booking not found", HttpStatus.NOT_FOUND);
     }
 }

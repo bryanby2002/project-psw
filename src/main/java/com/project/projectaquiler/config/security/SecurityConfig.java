@@ -70,6 +70,7 @@ public class SecurityConfig {
           .hasRole("ADMIN");
         httpRequest.requestMatchers(HttpMethod.POST, "/booking/create").hasRole("ADMIN");
         httpRequest.requestMatchers(HttpMethod.GET, "/booking/list").hasRole("ADMIN");
+        httpRequest.requestMatchers(HttpMethod.GET, "/booking/{idBooking}").hasRole("ADMIN");
 
         // endpoints no configuradas
         httpRequest.anyRequest().denyAll();

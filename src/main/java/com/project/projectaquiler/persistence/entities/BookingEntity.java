@@ -3,12 +3,12 @@ package com.project.projectaquiler.persistence.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
-@Data
+import lombok.*;
+
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -29,4 +29,14 @@ public class BookingEntity {
   private LocalDate endDate;
   private String purpose;
   private Double totalPrice;
+  private String vehicleType;
+  private LocalDateTime bookingDate;
+  private String vehicleImage;
+  private String vehiclePlate;
+  private Integer vehicleCapacity;
+  private String vehicleModel;
+  private Integer vehicleYear;
+  private String vehicleBrand;
+
+
 }
